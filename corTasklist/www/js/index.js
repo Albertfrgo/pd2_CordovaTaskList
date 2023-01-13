@@ -21,9 +21,31 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
+let pageNumber =1;
+
+$('#buttonAppend').click(addTask);
+
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
+}
+
+function addTask(){
+    let userInput;
+    userInput = prompt("Enter Page Name", "...");
+    $("ul").append("<li><a href =\"#page"+pageNumber+"\""+">" + userInput + 
+    "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button><button>Edit Task</button></a></li>");
+    $("ul").listview("refresh");
+    window.alert("Task added successfully");
+    $('.buttonDelete').click(deleteTask);
+    pageNumber++;
+}
+
+function deleteTask(e){
+    window.alert("Task deleted");
+    var caller = e.target || e.srcElement;
+    $(caller).parent().parent().remove();
+    return false;
 }

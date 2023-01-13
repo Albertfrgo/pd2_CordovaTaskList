@@ -28,7 +28,11 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
+
+		<!-- Amb aquesta politica de seguretat per defecte no funcionava-->
+		<!--
         <meta http-equiv="Content-Security-Policy" content="default-src &apos;self&apos; data: https://ssl.gstatic.com &apos;unsafe-eval&apos;; style-src &apos;self&apos; &apos;unsafe-inline&apos;; media-src *; img-src &apos;self&apos; data: content:;">
+		-->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
@@ -49,16 +53,18 @@
 		</style>
         <title>Hello World</title>
     </head>
-    <body>		<!-- page 1 -->
+    <body>		<!-- home page -->
 		<div data-role="page" id="homePage">
 			<div data-role="header">
 				<h1>Home</h1>
 			</div>
 			<ul data-role="listview">
-				<li><a href="#page1">Page1</a></li>
-				<li><a href="#page2">Page2</a></li>
-				<li><a href="#page3">Page3</a></li>
+<!-- 				<li><a href="#page1">Page1<button>Delete Task</button><button>Edit Task</button></a></li>
+				<li><a href="#page2">Page2<button>Delete Task</button><button>Edit Task</button></a></li>
+				<li><a href="#page3">Page3<button>Delete Task</button><button>Edit Task</button></a></li> -->
 			</ul>
+
+			<button type="button" id="buttonAppend">ADD NEW TASK</button>
 			
 			<div data-role="footer" data-position="fixed">
 				<h1>Home</h1>
@@ -111,11 +117,18 @@
 				<h1>Page3</h1>
 			</div><!-- /footer -->
 		</div><!-- /page3 -->
-<script src="cordova.js"></script><script type="text/javascript" src="js/jquery-1.11.1.min.js" id="cordova-jquery"></script><script type="text/javascript" id="jqm-trans-disable">
-		/* For having a faster transition */
+<script src="cordova.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js" id="cordova-jquery"></script>
+<!-- 	
+	<script type="text/javascript" id="jqm-trans-disable">
+		 /* For having a faster transition */
 		$(document).on("mobileinit", function() {
 				$.mobile.defaultPageTransition = "none";
 				$.mobile.defaultDialogTransition = "none";
 		});
-		</script><script type="text/javascript" src="js/jquery-1.5.0.mobile.min.js"></script><script src="js/index.js"></script></body>
+		</script>
+ -->
+		<script type="text/javascript" src="js/jquery-1.5.0.mobile.min.js"></script><script src="js/index.js">
+		
+		</script></body>
 </html>
