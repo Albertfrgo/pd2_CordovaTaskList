@@ -35,11 +35,12 @@ function onDeviceReady() {
 function addTask(){
     let userInput;
     userInput = prompt("Enter Page Name", "...");
-    $("ul").append("<li><a href =\"#page"+pageNumber+"\""+">" + userInput + 
-    "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button><button>Edit Task</button></a></li>");
+    $("ul").append("<li><a id=\"page"+pageNumber+"\" href =\"#page\""+">" + userInput + 
+    "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button><button type=\"button\" class=\"buttonEdit\">Edit Task</button></a></li>");
     $("ul").listview("refresh");
-    window.alert("Task added successfully");
+    window.alert("Task called "+userInput+" added successfully");
     $('.buttonDelete').click(deleteTask);
+    $('.buttonEdit').click(editTask);
     pageNumber++;
 }
 
@@ -48,4 +49,8 @@ function deleteTask(e){
     var caller = e.target || e.srcElement;
     $(caller).parent().parent().remove();
     return false;
+}
+
+function openEditTask(){
+
 }
