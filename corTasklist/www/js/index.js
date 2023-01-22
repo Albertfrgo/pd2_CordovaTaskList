@@ -22,8 +22,12 @@
 document.addEventListener('deviceready', onDeviceReady, false);
 
 let pageNumber =1;
+let nomNouPagina;
+let currentPage;
 
 $('#buttonAppend').click(addTask);
+$('#buttonChangeName').click(changeName);
+
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -40,7 +44,7 @@ function addTask(){
     $("ul").listview("refresh");
     window.alert("Task called "+userInput+" added successfully");
     $('.buttonDelete').click(deleteTask);
-    $('.buttonEdit').click(editTask);
+    $('.buttonEdit').click(openEditTask);
     pageNumber++;
 }
 
@@ -52,5 +56,25 @@ function deleteTask(e){
 }
 
 function openEditTask(){
+    //Fer servir la variable currentPage per guardar la id de la pagina des de la que hem 
+    // apretat el boto per cridar aquesta funcio per obrir la pagina d'edicio
+    currentPage = $(this).parent().attr('id');
+    // window.alert("id of page is "+currentPage);
 
+    //Obrir la pagina d'edicio
+    $.mobile.changePage("#pageEdition", {transition: "fade"});
+    return false;
 }
+
+function changeName(){
+    nomNouPagina = document.getElementById("inputChangeName").value;
+    // window.alert("id of page to modify is "+currentPage+" his new name will be "+nomNouPagina);
+    
+    //Tenint guardat el numero de la pagina desde la que hem obert la pagina d'edicio, currentPage, 
+    // podem referenciarla al DOM i canviar el seu html per el parametre nomNouPagina
+    let idCurrentPage =currentPage;
+    $("#"+idCurrentPage).html(nomNouPagina);
+    document.getElementById(idCurrentPage).innerHTML = nomNouPagina;
+}
+
+
