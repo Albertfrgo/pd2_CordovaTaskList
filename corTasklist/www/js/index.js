@@ -27,7 +27,7 @@ let currentPage;
 
 $('#buttonAppend').click(addTask);
 $('#buttonChangeName').click(changeName);
-
+$('#buttonLocalStorage').click(showLocalStorage);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -40,18 +40,39 @@ function addTask(){
     let userInput;
     userInput = prompt("Enter Page Name", "...");
     $("ul").append("<li><a id=\"page"+pageNumber+"\" href =\"#page\""+">" + userInput + 
-    "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button><button type=\"button\" class=\"buttonEdit\">Edit Task</button></a></li>");
+            "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button>"+
+            "<button type=\"button\" class=\"buttonEdit\">Edit Task</button></a></li>");
+/*  "<li>
+        <a id=\"page"+pageNumber+"\" href =\"#page\""+">" 
+            + userInput + 
+            "<br>
+            </br>
+            <button type=\"button\" class=\"buttonDelete\">Delete Task</button>
+            <button type=\"button\" class=\"buttonEdit\">Edit Task</button>
+        </a>
+    </li>"); */
     $("ul").listview("refresh");
     window.alert("Task called "+userInput+" added successfully");
     $('.buttonDelete').click(deleteTask);
     $('.buttonEdit').click(openEditTask);
     pageNumber++;
+
+    //Quan s'afegeix una TaskList, desa al localStorage el numero i el text o nom
+    // donat que de moment suposem que tots els elements guardats seran tasklists, de moment
+    // funcionaria guardant nomes aquests dos parametres que son els que canvien
+    let pageId = "page"+pageNumber;
+    localStorage.setItem(pageId, userInput);
 }
 
 function deleteTask(e){
     window.alert("Task deleted");
     var caller = e.target || e.srcElement;
     $(caller).parent().parent().remove();
+    
+    //Per esborrar caldria obtenir el id de la tasklist que estigui a l'storage
+    // aixi podem anar i esborrar l'element
+    let tasklistId = $(this).parent().attr('id');
+    localStorage.removeItem(tasklistId);
     return false;
 }
 
@@ -73,8 +94,18 @@ function changeName(){
     //Tenint guardat el numero de la pagina desde la que hem obert la pagina d'edicio, currentPage, 
     // podem referenciarla al DOM i canviar el seu html per el parametre nomNouPagina
     let idCurrentPage =currentPage;
-    $("#"+idCurrentPage).html(nomNouPagina);
-    document.getElementById(idCurrentPage).innerHTML = nomNouPagina;
+    let newHTML = nomNouPagina
+    +'<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button>' + 
+    '<button type=\"button\" class=\"buttonEdit\">Edit Task</button>';
+    // $("#"+idCurrentPage).html(newHTML);
+    document.getElementById(idCurrentPage).innerHTML = newHTML;
+    $('.buttonDelete').click(deleteTask);
+    $('.buttonEdit').click(openEditTask);
+}
+
+function showLocalStorage(){
+    window.alert(localStorage);
+    console.log(localStorage);
 }
 
 
