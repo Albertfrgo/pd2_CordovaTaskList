@@ -28,6 +28,7 @@ let currentPage;
 $('#buttonAppend').click(addTask);
 $('#buttonChangeName').click(changeName);
 $('#buttonLocalStorage').click(showLocalStorage);
+$('#buttonDeleteStorage').click(deleteLocalStorage);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -104,8 +105,19 @@ function changeName(){
 }
 
 function showLocalStorage(){
-    window.alert(localStorage);
-    console.log(localStorage);
+    let storageContents;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i)
+        console.log(`${key}: ${localStorage.getItem(key)}`)
+        storageContents += key;
+      }
+    window.alert(storageContents);
+    
+}
+
+function deleteLocalStorage(){
+    window.alert("Local Storage deleted");
+    localStorage.clear();
 }
 
 
