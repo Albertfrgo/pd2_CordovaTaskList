@@ -30,6 +30,22 @@ $('#buttonChangeName').click(changeName);
 $('#buttonLocalStorage').click(showLocalStorage);
 $('#buttonDeleteStorage').click(deleteLocalStorage);
 
+//Al obrir la pagina, revisa el local storage per buscar elements, quan troba una key, hauria de carregar
+//  una task amb la key com a id i el valor desat com a nom, la part comentada no funciona, només afegeix un element
+// i els botons d'aquest no funcionen
+for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    console.log(`${key}: ${localStorage.getItem(key)}`)
+    window.alert("Task "+key+": "+localStorage.getItem(key));
+/*     $("ul").append("<li><a id=\""+key+"\" href =\"#page\""+">" + localStorage.getItem(key) + 
+    "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button>"+
+    "<button type=\"button\" class=\"buttonEdit\">Edit Task</button></a></li>");
+    $("ul").listview("refresh");
+    $('.buttonDelete').click(deleteTask);
+    $('.buttonEdit').click(openEditTask); */
+    pageNumber ++;
+  }
+
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
@@ -43,26 +59,17 @@ function addTask(){
     $("ul").append("<li><a id=\"page"+pageNumber+"\" href =\"#page\""+">" + userInput + 
             "<br></br><button type=\"button\" class=\"buttonDelete\">Delete Task</button>"+
             "<button type=\"button\" class=\"buttonEdit\">Edit Task</button></a></li>");
-/*  "<li>
-        <a id=\"page"+pageNumber+"\" href =\"#page\""+">" 
-            + userInput + 
-            "<br>
-            </br>
-            <button type=\"button\" class=\"buttonDelete\">Delete Task</button>
-            <button type=\"button\" class=\"buttonEdit\">Edit Task</button>
-        </a>
-    </li>"); */
     $("ul").listview("refresh");
-    window.alert("Task called "+userInput+" added successfully");
+    // window.alert("Task called "+userInput+" added successfully");
     $('.buttonDelete').click(deleteTask);
     $('.buttonEdit').click(openEditTask);
-    pageNumber++;
 
     //Quan s'afegeix una TaskList, desa al localStorage el numero i el text o nom
     // donat que de moment suposem que tots els elements guardats seran tasklists, de moment
     // funcionaria guardant nomes aquests dos parametres que son els que canvien
     let pageId = "page"+pageNumber;
     localStorage.setItem(pageId, userInput);
+    pageNumber++;
 }
 
 function deleteTask(e){
@@ -78,6 +85,7 @@ function deleteTask(e){
 }
 
 function openEditTask(){
+    window.alert("EDit Task");
     //Fer servir la variable currentPage per guardar la id de la pagina des de la que hem 
     // apretat el boto per cridar aquesta funcio per obrir la pagina d'edicio
     currentPage = $(this).parent().attr('id');
@@ -102,6 +110,8 @@ function changeName(){
     document.getElementById(idCurrentPage).innerHTML = newHTML;
     $('.buttonDelete').click(deleteTask);
     $('.buttonEdit').click(openEditTask);
+
+    localStorage.setItem(idCurrentPage, nomNouPagina);
 }
 
 function showLocalStorage(){
@@ -109,15 +119,15 @@ function showLocalStorage(){
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i)
         console.log(`${key}: ${localStorage.getItem(key)}`)
-        storageContents += key;
+        storageContents += key +": "+localStorage.getItem(key)+"   ";
       }
     window.alert(storageContents);
-    
 }
 
 function deleteLocalStorage(){
     window.alert("Local Storage deleted");
     localStorage.clear();
+    pageNumber =1;
 }
 
 
